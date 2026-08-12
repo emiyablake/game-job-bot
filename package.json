@@ -1,0 +1,37 @@
+{
+  "name": "game-job-bot",
+  "version": "1.0.0",
+  "description": "A tool for collecting, classifying and notifying game development job opportunities.",
+  "main": "dist/core/JobRunner.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/core/JobRunner.js",
+    "collect": "npm run build && npm run start",
+    "dev": "npx ts-node --esm src/core/JobRunner.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/ --ext .ts",
+    "lint:fix": "eslint src/ --ext .ts --fix"
+  },
+  "author": "emiyablake",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^26.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
+    "eslint": "^9.20.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "js-yaml": "^4.1.0"
+  }
+}
