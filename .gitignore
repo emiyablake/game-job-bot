@@ -1,5 +1,27 @@
-# env 
+# Environment
+.env
 *.env
 
-# packages
+# Dependencies
 node_modules/
+
+# Build output
+dist/
+
+# Output files
+output/*.json
+output/*.csv
+
+# State files
+state/*.json
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
