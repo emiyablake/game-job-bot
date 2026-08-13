@@ -47,7 +47,7 @@ export async function runExternalAccessTest(): Promise<void> {
 
   const sites = [
     'https://workwithindies.com',
-    'https://boards.greenhouse.io/ubisoft',
+    'https://itch.io/jobs',
     'https://httpbin.org/get',
   ];
 
