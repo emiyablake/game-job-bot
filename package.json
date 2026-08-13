@@ -2,6 +2,7 @@
   "name": "game-job-bot",
   "version": "1.0.0",
   "description": "A tool for collecting, classifying and notifying game development job opportunities.",
+  "type": "module",
   "main": "dist/core/JobRunner.js",
   "directories": {
     "doc": "docs"
@@ -10,9 +11,9 @@
     "build": "tsc",
     "start": "node dist/core/JobRunner.js",
     "collect": "npm run build && npm run start",
-    "dev": "npx ts-node --esm src/core/JobRunner.ts",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "dev": "npx tsx src/core/JobRunner.ts",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "lint": "eslint src/ --ext .ts",
     "lint:fix": "eslint src/ --ext .ts --fix"
   },
@@ -21,14 +22,14 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^26.2.0",
+    "@types/node": "^22.13.0",
     "@typescript-eslint/eslint-plugin": "^8.24.0",
     "@typescript-eslint/parser": "^8.24.0",
     "eslint": "^9.20.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^7.0.2"
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.3"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
