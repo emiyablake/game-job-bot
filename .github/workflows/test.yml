@@ -1,0 +1,44 @@
+name: Teste
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  teste-basico:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Compilar TypeScript
+        run: npx tsc --noEmit
+
+      - name: Criar pasta de estado
+        run: mkdir -p state output
+
+      - name: Rodar teste básico
+        run: npx ts-node src/index.ts
+        env:
+          STATE_PATH: ./state/state.json
+          OUTPUT_DIR: ./output
+
+      - name: Verificar estrutura
+        run: |
+          echo "=== Estrutura ==="
+          ls -la
+          echo ""
+          echo "=== src/ ==="
+          ls -la src/
