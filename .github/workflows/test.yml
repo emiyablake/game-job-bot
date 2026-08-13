@@ -1,4 +1,4 @@
-name: Teste
+name: Teste Basico
 
 on:
   push:
@@ -26,19 +26,26 @@ jobs:
       - name: Compilar TypeScript
         run: npx tsc --noEmit
 
-      - name: Criar pasta de estado
+      - name: Criar pastas necessárias
         run: mkdir -p state output
 
-      - name: Rodar teste básico
-        run: npx ts-node src/index.ts
+      - name: Rodar pipeline de teste
+        run: npx tsx src/index.ts
         env:
           STATE_PATH: ./state/state.json
           OUTPUT_DIR: ./output
+
+      - name: Upload do resultado do scraper
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraper-test-result
+          path: output/test-scraper-result.json
+          retention-days: 7
 
       - name: Verificar estrutura
         run: |
           echo "=== Estrutura ==="
           ls -la
           echo ""
-          echo "=== src/ ==="
-          ls -la src/
+          echo "=== output/ ==="
+          ls -la output/

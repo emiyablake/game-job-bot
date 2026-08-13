@@ -1,29 +1,73 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import { runExternalAccessTest } from './test-scraper.js';
 
-function main(): void {
-  console.log('🎮 Game Job Bot — Teste de fluxo básico');
-  console.log(`Node version: ${process.version}`);
-  console.log(`Working directory: ${process.cwd()}`);
+interface TestResult {
+  name: string;
+  passed: boolean;
+  message: string;
+}
 
-  const prefsPath = resolve('./config/preferences.yaml');
+function checkFile(path: string, description: string): TestResult {
   try {
-    const content = readFileSync(prefsPath, 'utf-8');
-    console.log('✅ preferences.yaml encontrado');
-    console.log('--- Conteúdo (primeiras 5 linhas) ---');
-    console.log(content.split('\n').slice(0, 5).join('\n'));
+    readFileSync(resolve(path), 'utf-8');
+    return { name: description, passed: true, message: 'Arquivo encontrado' };
   } catch {
-    console.log('⚠️  preferences.yaml não encontrado em', prefsPath);
+    return { name: description, passed: false, message: `Arquivo não encontrado: ${path}` };
   }
+}
+
+async function runBasicTests(): Promise<void> {
+  console.log('🎮 Game Job Bot — Teste de fluxo básico\n');
+  console.log(`Node version: ${process.version}`);
+  console.log(`Working directory: ${process.cwd()}\n`);
+
+  const results: TestResult[] = [];
+
+  results.push(checkFile('./tsconfig.json', 'tsconfig.json'));
+  results.push(checkFile('./package.json', 'package.json'));
+  results.push(checkFile('./config/preferences.yaml', 'config/preferences.yaml'));
 
   const envVars = ['STATE_PATH', 'OUTPUT_DIR', 'GITHUB_TOKEN'];
   envVars.forEach((key) => {
     const value = process.env[key];
-    console.log(`${value ? '✅' : '⚠️'}  ${key}: ${value ? 'definido' : 'não definido'}`);
+    results.push({
+      name: `Env: ${key}`,
+      passed: !!value,
+      message: value ? 'Definido' : 'Não definido',
+    });
   });
 
-  console.log('\n✅ Fluxo básico executado com sucesso!');
-  process.exit(0);
+  console.log('--- Resultados ---');
+  let passed = 0;
+  let failed = 0;
+
+  for (const r of results) {
+    const icon = r.passed ? '✅' : '⚠️';
+    console.log(`${icon} ${r.name}: ${r.message}`);
+    if (r.passed) passed++; else failed++;
+  }
+
+  console.log(`\n📊 ${passed} passaram, ${failed} falharam`);
+
+  if (failed > 0) {
+    console.log('\n⚠️ Alguns testes básicos falharam.');
+  } else {
+    console.log('\n✅ Todos os testes básicos passaram!');
+  }
+}
+
+async function main(): Promise<void> {
+  try {
+    await runBasicTests();
+    await runExternalAccessTest();
+
+    console.log('\n🎉 Pipeline de teste concluído com sucesso!');
+    process.exit(0);
+  } catch (err) {
+    console.error('\n💥 Pipeline falhou:', err instanceof Error ? err.message : String(err));
+    process.exit(1);
+  }
 }
 
 main();
