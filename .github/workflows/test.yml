@@ -1,4 +1,4 @@
-name: Teste Basico
+name: Flow Test
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  teste-basico:
+  teste:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
@@ -28,8 +28,11 @@ jobs:
 
       - name: Criar pastas necessárias
         run: mkdir -p state output
+      
+      - name: Rodar testes Jest
+        run: npm test
 
-      - name: Rodar pipeline de teste
+      - name: Rodar teste de acesso externo
         run: npx tsx src/index.ts
         env:
           STATE_PATH: ./state/state.json
@@ -47,5 +50,8 @@ jobs:
           echo "=== Estrutura ==="
           ls -la
           echo ""
-          echo "=== output/ ==="
-          ls -la output/
+          echo "=== src/ ==="
+          ls -la src/
+          echo ""
+          echo "=== tests/ ==="
+          ls -la tests/
