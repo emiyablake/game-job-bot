@@ -4,9 +4,9 @@
     "target": "esnext",
     "moduleResolution": "nodenext",
     "lib": ["esnext"],
-    "types": ["node"],
+    "types": ["node", "jest"],
 
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
 
     "sourceMap": true,
@@ -25,6 +25,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["src/"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
