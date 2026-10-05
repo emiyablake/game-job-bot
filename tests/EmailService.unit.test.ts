@@ -1,4 +1,3 @@
-import { jest } from '@jest/globals';
 import { EmailService } from '../src/services/EmailService.js';
 
 describe('EmailService — Unitário', () => {

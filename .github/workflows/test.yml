@@ -26,6 +26,9 @@ jobs:
       - name: Compilar TypeScript
         run: npx tsc --noEmit
 
+      - name: Rodar lint
+        run: npm run lint
+
       - name: Criar pastas necessárias
         run: mkdir -p state output
       
