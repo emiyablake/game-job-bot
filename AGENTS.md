@@ -29,7 +29,7 @@ Leia o `docs/prd.md` antes de implementar novos módulos — ele é a especifica
 
 ```bash
 npm install          # instalar dependências
-npm run build        # compilar TypeScript (tsc)
+npm run build        # compilar TypeScript (tsc -p tsconfig.build.json; só src/, saída em dist/)
 npm test             # rodar testes Jest (usa --experimental-vm-modules por ESM)
 npm run test:watch   # testes em modo watch
 npm run lint         # eslint em src/ e tests/
@@ -46,6 +46,9 @@ npm run start        # node dist/core/JobRunner.js (entrypoint ainda não implem
 - `src/index.ts` — script de verificação de ambiente (não é a aplicação final).
 - `src/models/` — contratos de domínio (`GameJob`, `UserPreferences`, tipo `Relevance`).
 - `src/config/` — carregamento de configuração (`preferences.ts` lê o YAML de preferências).
+- `src/core/` — orquestração do pipeline (`JobRunner.ts`, contrato `PipelineStep`, `createDefaultPipeline()` com stubs das 12 etapas do PRD).
+- `src/utils/` — infraestrutura compartilhada (`Logger.ts` com níveis e emojis no padrão do projeto).
+- `docs/adr/` — Architecture Decision Records (ADR-001, ADR-002, ...), sempre escritos após a implementação da tarefa.
 - `src/test-*.ts` — scripts manuais de teste (e-mail e conectividade).
 - `tests/` — testes Jest (`*.test.ts`), raiz configurada como `<rootDir>/tests`.
 - `docs/prd.md` — PRD com pipeline, modelos de domínio e decisões de engenharia (referência arquitetural principal).
@@ -63,6 +66,12 @@ A estrutura descrita no `readme.md` (`src/core`, `src/scrapers`, `src/writers`, 
 - Mensagens de log/teste em português, com emojis (🎮, ✅, ⚠️, ❌) no padrão já usado.
 - E-mails e relatórios agrupam vagas por relevância: `high` / `medium` / `low`.
 - Domínio usa `relevance` (não `score`/`importance`).
+
+## ADRs (Architecture Decision Records)
+
+- Decisões de arquitetura são documentadas em `docs/adr/ADR-NNN.md` (ADR-001, ADR-002, ...), em português.
+- O ADR é escrito **sempre após a implementação** da tarefa — funciona como snapshot da decisão arquitetural naquele momento, não como planejamento prévio.
+- Estrutura mínima: Status, Contexto, Decisão, Consequências.
 
 ## Testes
 

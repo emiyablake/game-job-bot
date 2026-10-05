@@ -8,7 +8,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "start": "node dist/core/JobRunner.js",
     "collect": "npm run build && npm run start",
     "dev": "npx tsx src/core/JobRunner.ts",
